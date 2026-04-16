@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})} ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <section>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="card card-sh text-center">
+                        <div class="card-header">
+                            <p class="fs-4 fw-bold">View user</p>
+                            <th:block>
+                                <p th:if="${session.successMsg}" class="text-success fw-bold">[[${session.successMsg}]]
+                                </p>
+                                <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                            </th:block>
+                            <th:block>
+                                <p th:if="${session.errorMsg}" class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+                                <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                            </th:block>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">FullName</th>
+                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                        <tr th:Each="u,c:${users}">
+                                            <th scope="row">[[${c.count}]]</th>
+                                            <td>[[${u.fullName}]]</td>
+                                            <td>[[${u.phoneNumber}]]</td>
+                                            <td>[[${u.email}]]</td>
+                                            <td>[[|${u.address}, ${u.city}, ${u.state}, ${u.pinCode}|]]</td>
+                                            <td><img th:src="@{'/img/profiles_img/' + ${u.profileImage}}" width="60px"
+                                                    height="60px"></td>
+                                            <td>
+                                                <p th:if="${u.isEnable == false}" class="text-warning fw-bold">Inactive
+                                                </p>
+                                                <p th:if="${u.isEnable == true}" class="text-success fw-bold">Active</p>
+                                            </td>
+
+                                            <th:block th:if="${u.isEnable == true}">
+                                                <td>
+                                                    <a th:href="@{'/admin/updateStatus?type=' +${type} + '&status=false&id=' + ${u.id}}"
+                                                        class="btn btn-primary btn-sm">InActive</a>
+                                                </td>
+                                            </th:block>
+                                            <th:block th:if="${u.isEnable == false}">
+                                                <td>
+                                                    <a th:href="@{'/admin/updateStatus?type=' + ${type} + '&status=true&id=' + ${u.id}}"
+                                                        class="btn btn-primary btn-sm">Active</a>
+                                                </td>
+                                            </th:block>
+                                        </tr>
+                                    
+
+
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                            <div class="col-md-4 ">
+                                <p class="fw-bold">Total Users:[[${totalUsers}]]</p>
+                            </div>
+                            <th:block th:if="${users.size() > 0 && totalPages > 1}">
+                                <div class="col-md-8">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination ">
+                                            <li class="page-item" th:classappend=" ${isFirst}? 'disabled' : '' "><a
+                                                    class="page-link"
+                                                    th:href="@{'/admin/users?type=' + ${type} +'&pageNo=' + ${pageNo - 1} }">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a></li>
+
+                                            <li class="page-item" th:each="i : ${#numbers.sequence(1,totalPages-1)}"
+                                                th:classappend="${pageNo == i}?'active':''"><a class="page-link"
+                                                    th:href="@{'/admin/users?type=' + ${type} +'&pageNo=' + ${i}}">[[${i}]]</a></li>
+
+
+                                            <li class="page-item" th:classappend="${isLast}? 'disabled':''"><a
+                                                    class="page-link"
+                                                    th:href="@{'/admin/users?type=' + ${type} +'&pageNo=' + ${pageNo + 1} }"><span
+                                                        aria-hidden="true">&raquo;</span></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </th:block>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

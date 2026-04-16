@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{base::layout(~{::section})} ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+        <div class="container p-5 mt-5 " >
+            <p class="text-center fs-4 text-primary ">Admin Dashboard</p>
+            <div class="row " style="margin-bottom: 10px ;">
+                <div class="col-md-4">
+                    <a href="/admin/loadAddProduct" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-primary ">
+                            <i class="fa-solid fa-plus fa-2x"></i>
+                         <p class="fs-8">Add Product</p>
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4">
+                    <a href="/admin/category" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-warning">
+                            <i class="fa-solid fa-layer-group fa-2x"></i>
+                         <p class="fs-8">Category</p>
+                         
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4">
+                    <a href="/admin/products" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-success">
+                            <i class="fa-brands fa-product-hunt fa-2x"></i>
+                         <p class="fs-8">View Product</p>
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+            </div>
+
+             <div class="row" style="margin-bottom: 10px ;">
+                <div class="col-md-4">
+                    <a href="/admin/adminOrder" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-success">
+                            <i class="fa-solid fa-cart-arrow-down fa-2x"></i>
+                         <p class="fs-8">Order</p>
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4">
+                    <a th:href="@{'/admin/users?type=1'}" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-secondary ">
+                            <i class="fa-solid fa-user fa-2x"></i>
+                         <p class="fs-8">User</p>
+                         
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4">
+                    <a href="/admin/addAdmin" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-danger">
+                            <i class="fa-solid fa-user-tie fa-2x"></i>
+                         <p class="fs-8">Add Admin</p>
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+            </div>
+
+            
+             <div class="row">
+                <div class="col-md-4">
+                    <a th:href="@{'/admin/users?type=2' }" class="text-decoration-none">
+                        <div class="card text-center card-sh">
+                         <div class="card-body text-dark">
+                            <i class="fa-solid fa-user fa-2x"></i>
+                         <p class="fs-8">Admin</p>
+                         </div>
+                    </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</body>
+</html>

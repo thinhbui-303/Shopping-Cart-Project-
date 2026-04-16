@@ -1,0 +1,45 @@
+package com.ecom.shopping_cart.model;
+
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class UserDtls {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id ; 
+
+    private String fullName;
+
+    private String phoneNumber;
+
+    private String email; 
+    private String address;
+    private String city;
+
+    private String state;
+
+    private String pinCode;
+    private String password;
+    private String profileImage;
+   
+    private String role;
+    private Boolean isEnable;
+
+    private Boolean isAccountNonLock;
+    private Integer failureAttemp;
+    private Date lockTime;
+    private String resetToken;
+}

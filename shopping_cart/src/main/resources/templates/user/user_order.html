@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{base::layout(~{::section})} ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+        <div class="container mt-5 p-3">
+            <div class="card card-sh mt-3">
+            <div class="text-center card-header ">
+                <p class="fs-3">View Order</p>
+                <th:block th:if="${session.successMsg}">
+                            <p class="text-success fw-bold text-center">[[${session.successMsg}]]</p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+
+                        <th:block th:if="${session.errorMsg}">
+                            <p class="text-danger fw-bold text-center">[[${session.errorMsg}]]</p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Date Ordered</th>
+                        <th scope="col">Product Detail</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="o:${orders}">
+                    <th scope="row">[[${o.orderId}]]</th>
+                    <td>[[${o.orderDate}]]</td>
+                    <td>Tile: [[${o.product.title}]]<br>
+                        Quantity: [[${o.quantity}]] <br>
+                        TotalPrice: [[${o.price} * ${o.quantity}]]
+                    </td>
+                    <td class="text-success fw-bold">[[${o.orderStatus}]]</td>
+                    <td><th:block th:if="${o.orderStatus != 'Cancelled' }">
+                        <a th:href="@{'/user/updateStatusOrder?id=' + ${o.id} + '&st=6'}" class="btn btn-danger">Cancell</a>
+                    </th:block>
+                        
+                    <th:block th:unless="${o.orderStatus != 'Cancelled' }">
+                        <a  class="btn btn-secondary">Disable</a>
+                    </th:block>
+                    
+                    </td>
+
+                    </tr>
+                    
+                </tbody>
+                </table>
+            </div>
+                </div>
+        </div>
+    </section>
+</body>
+</html>
