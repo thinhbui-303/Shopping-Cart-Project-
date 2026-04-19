@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ecom.shopping_cart.model.Cart;
 import com.ecom.shopping_cart.model.OrderAddress;
@@ -37,6 +38,7 @@ public class OrderServiceImpl implements OrderService{
    
 
     @Override
+    @Transactional
     public void saveOrder(Integer uid, OrderRequest orderRequest){
         List<Cart> carts = cartRepository.findCartByUserId(uid);
         for (Cart cart : carts) {
@@ -63,6 +65,7 @@ public class OrderServiceImpl implements OrderService{
             orderRepository.save(order);
 
         }
+        cartRepository.deleteCartByUserId(uid);
         
     }
     @Override

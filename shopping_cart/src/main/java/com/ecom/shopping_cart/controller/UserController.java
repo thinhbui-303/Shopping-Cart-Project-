@@ -18,6 +18,7 @@ import com.ecom.shopping_cart.service.interf.CartService;
 import com.ecom.shopping_cart.service.interf.CategoryService;
 import com.ecom.shopping_cart.service.interf.OrderService;
 import com.ecom.shopping_cart.service.interf.UserService;
+import com.ecom.shopping_cart.util.AppConstant;
 import com.ecom.shopping_cart.util.ComonUtil;
 import com.ecom.shopping_cart.util.OrderStatus;
 
@@ -102,7 +103,7 @@ public class UserController {
         model.addAttribute("cart", carts);
         Double totalPrice = cartService.getTotalOrderPrice(user.getId());
         model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("totalOrderPrice", totalPrice + 126 + 74);
+        model.addAttribute("totalOrderPrice", totalPrice + AppConstant.SHIPPING_FEE + AppConstant.TAX_FEE);
         return "user/order";
     }
     @PostMapping("/saveOrder")
@@ -124,7 +125,7 @@ public class UserController {
         return "user/user_order";
     }
     @GetMapping("/updateStatusOrder")
-    public String updateStatusOrder(@RequestParam Integer st, @RequestParam Integer id, HttpSession session) {
+    public String updateStatusOrder(@RequestParam Integer st, @RequestParam Integer id, HttpSession session) throws Exception {
         OrderStatus[] orderSt = OrderStatus.values();
         String status = null;
         for (OrderStatus orderStatus : orderSt) {
@@ -133,11 +134,9 @@ public class UserController {
             }
         }
        ProductOrder check =  orderService.updateStatusOrder(id, status);
-       try {
+      
         comonUtil.sendMailForProductOrder(status, check);
-       } catch (Exception e) {
-        e.getStackTrace();
-    }
+       
         if(!ObjectUtils.isEmpty(check)){
             session.setAttribute("successMsg", "Cancel Order Successfully!");
         }

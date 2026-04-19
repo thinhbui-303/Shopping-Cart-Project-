@@ -36,13 +36,13 @@ public class CartServiceImpl implements CartService {
             cart.setProduct(product);
             cart.setUser(user);
             cart.setQuantity(1);
-            cart.setTotalPrice(product.getDiscountPrice());
+            // cart.setTotalPrice(product.getDiscountPrice());
             
         } 
         else{
             cart = cartStatus;
             cart.setQuantity(cart.getQuantity()+1);
-            cart.setTotalPrice(cart.getQuantity()*cart.getProduct().getDiscountPrice());
+            // cart.setTotalPrice(cart.getQuantity()*cart.getProduct().getDiscountPrice());
         
         }
         Cart saveCart = cartRepository.save(cart);
@@ -61,7 +61,7 @@ public class CartServiceImpl implements CartService {
         List<Cart> carts = cartRepository.findCartByUserId(uid);
         double totalOrderPrice = 0;
         for (Cart cart : carts) {
-            totalOrderPrice += cart.getTotalPrice();
+            totalOrderPrice += (cart.getQuantity() * cart.getProduct().getDiscountPrice());
             
         }
         return totalOrderPrice;
@@ -82,8 +82,8 @@ public class CartServiceImpl implements CartService {
              quantityProduct = cart.getQuantity()+1;
         }
         cart.setQuantity(quantityProduct);
-        Double price = quantityProduct * cart.getProduct().getDiscountPrice();
-        cart.setTotalPrice(price);
+        // Double price = quantityProduct * cart.getProduct().getDiscountPrice();
+        // cart.setTotalPrice(price);
         cartRepository.save(cart);
         
     }

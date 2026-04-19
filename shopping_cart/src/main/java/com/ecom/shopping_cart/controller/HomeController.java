@@ -3,12 +3,14 @@ package com.ecom.shopping_cart.controller;
 import com.ecom.shopping_cart.model.Category;
 import com.ecom.shopping_cart.model.Product;
 import com.ecom.shopping_cart.model.UserDtls;
+import com.ecom.shopping_cart.service.impl.FileStorageService;
 import com.ecom.shopping_cart.service.interf.*;
 import com.ecom.shopping_cart.util.ComonUtil;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,20 +20,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.io.File;
+// import java.nio.file.Files;
+// import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Path;
+// import java.nio.file.Path;
 
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+// import java.nio.file.Paths;
+// import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+// import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -39,6 +41,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class HomeController {
+    @Autowired
+    FileStorageService fileStorageService;
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -72,10 +77,10 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
         List<Category> cates = categoryService.getAllIsActiveCategory().stream()
-        .sorted((c1,c2) -> c2.getId().compareTo(c1.getId())).limit(6).toList();
+                .sorted((c1, c2) -> c2.getId().compareTo(c1.getId())).limit(6).toList();
 
         List<Product> products = productService.getAllIsActiveProduct("").stream()
-        .sorted((p1,p2) -> p1.getId().compareTo(p2.getId())).limit(8).toList();
+                .sorted((p1, p2) -> p1.getId().compareTo(p2.getId())).limit(8).toList();
         model.addAttribute("cates", cates);
         model.addAttribute("products", products);
         return "index";
@@ -92,60 +97,60 @@ public class HomeController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute UserDtls userDtls, HttpSession session,
+    public String saveUser(@Valid @ModelAttribute UserDtls userDtls, 
+            HttpSession session,
             @RequestParam("img") MultipartFile file) throws IOException {
-
+        
         String imageName = !file.isEmpty() ? file.getOriginalFilename() : "default.jpg";
         userDtls.setProfileImage(imageName);
         Boolean checkExistEmail = userService.existsEmail(userDtls.getEmail());
-        
-        if(checkExistEmail){
+
+        if (checkExistEmail) {
             session.setAttribute("errorMsg", "Email was used");
-        }
-        else{
+        } else {
             UserDtls saveUserDtls = userService.saveUser(userDtls);
             if (!ObjectUtils.isEmpty(saveUserDtls)) {
-            if (!file.isEmpty()) {
-                File saveFile = new ClassPathResource("static/img").getFile();
+                if (!file.isEmpty()) {
+                    // File saveFile = new ClassPathResource("static/img").getFile();
 
-                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profiles_img" + File.separator
-                        + file.getOriginalFilename());
+                    // Path path = Paths.get(saveFile.getAbsolutePath() + File.separator +
+                    // "profiles_img" + File.separator
+                    // + file.getOriginalFilename());
 
-                // System.out.println(path);
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                    // // System.out.println(path);
+                    // Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                    fileStorageService.saveFile(file, "profiles_img");
+                }
+                session.setAttribute("successMsg", "Register successfully");
 
-            }
-            session.setAttribute("successMsg", "Register successfully");
-
-        } else
-            session.setAttribute("errorMsg", "somthing wrong !");
+            } else
+                session.setAttribute("errorMsg", "somthing wrong !");
         }
-        
+
         return "redirect:/register";
     }
 
     @GetMapping("/products")
-    public String products(Model model, @RequestParam(required = false) String category, 
-        @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-        @RequestParam(value = "pageSize",defaultValue = "12") Integer pageSize,
-        @RequestParam(defaultValue = "") String ch) {
+    public String products(Model model, @RequestParam(required = false) String category,
+            @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "12") Integer pageSize,
+            @RequestParam(defaultValue = "") String ch) {
 
         model.addAttribute("categories", categoryService.getAllIsActiveCategory());
         model.addAttribute("paramValue", category);
         Page<Product> page = null;
-        if(!StringUtils.isEmpty(ch)){
-            page = productService.searchIsActiveProductPagination(ch, pageNo, pageSize,category);
-        }
-        else{
+        if (!StringUtils.isEmpty(ch)) {
+            page = productService.searchIsActiveProductPagination(ch, pageNo, pageSize, category);
+        } else {
             page = productService.getAllIsActiveProductPagination(pageNo, pageSize, category);
         }
-        
+
         List<Product> products = page.getContent();
         model.addAttribute("products", products);
         model.addAttribute("pageNo", page.getNumber());
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("ch", ch);
-        model.addAttribute("totalProducts",page.getTotalElements());
+        model.addAttribute("totalProducts", page.getTotalElements());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("isFirst", page.isFirst());
         model.addAttribute("isLast", page.isLast());
