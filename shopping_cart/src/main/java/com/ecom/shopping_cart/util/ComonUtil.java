@@ -34,10 +34,10 @@ public class ComonUtil {
         return url.replace(request.getServletPath(), "/reset-password?resetToken=");
     }
 
-    String msg = null;
+    
     
     public Boolean sendMailForProductOrder(String status, ProductOrder productOrder) throws Exception {
-        msg = "<p>Hello, [[fullName]]</p>"
+        String msg = "<p>Hello, [[fullName]]</p>"
                 + "<p><b>Your order status is [[orderStatus]]</b></p>"
                 + "<p><b>Product order details:</b></p>"
                 + "<p>Category: [[category]]</p>"
