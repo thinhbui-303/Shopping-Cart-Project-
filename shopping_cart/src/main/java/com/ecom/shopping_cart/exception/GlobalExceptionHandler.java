@@ -40,6 +40,14 @@ public class GlobalExceptionHandler {
        return "redirect:" + (referer != null ? referer : "/");
    }
 
+   @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException ex,
+            HttpSession session, HttpServletRequest request) {
+        session.setAttribute("errorMsg", ex.getMessage());
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/");
+    }
+
 
    
 
