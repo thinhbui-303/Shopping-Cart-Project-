@@ -20,4 +20,6 @@ public interface OrderService {
     public ProductOrder searchByOrderId(String orderId);
 
     public Page<ProductOrder> getAllOrderPagination(Integer pageNo, Integer pageSize);
+
+    public Page<ProductOrder> getAllOrderByUserIdPagination(Integer pageNo, Integer pageSize, Integer uid);
 }

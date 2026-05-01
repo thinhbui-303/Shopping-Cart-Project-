@@ -57,6 +57,28 @@ th:replace="~{base::layout(~{::section})} ">
                 </tbody>
                 </table>
             </div>
+            </div>
+                
+                    <div class="col-md-8">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination ">
+                                <li class="page-item" th:classappend=" ${isFirst}? 'disabled' : '' "><a
+                                        class="page-link" th:href="@{'/user/adminOrder?pageNo=' + ${pageNo - 1}}">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a></li>
+
+                                <li class="page-item" th:each="i : ${#numbers.sequence(1,totalPages-1)}"
+                                    th:classappend="${pageNo == i}?'active':''"><a class="page-link"
+                                        th:href="@{'/user/userOrder?pageNo=' + ${i}}">[[${i}]]</a>
+                                </li>
+
+
+                                <li class="page-item" th:classappend="${isLast}? 'disabled':''"><a class="page-link"
+                                        th:href="@{'/user/userOrder?pageNo=' + ${pageNo + 1}}"><span
+                                            aria-hidden="true">&raquo;</span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
         </div>
     </section>
