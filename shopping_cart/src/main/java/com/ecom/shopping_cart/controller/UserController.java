@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,6 +99,7 @@ public class UserController {
     }
     @GetMapping("/order")
     public String getOrder(Principal p , Model model) {
+
         UserDtls user = userService.getUserByEmail(p.getName());
         List<Cart> carts = cartService.getCartByUserId(user.getId());
         model.addAttribute("cart", carts);
@@ -118,10 +120,15 @@ public class UserController {
         return "user/success";
     }
     @GetMapping("/userOrder")
-    public String userOrder(Model model , Principal p) {
+    public String userOrder(Model model , Principal p, @RequestParam(defaultValue = "0")Integer pageNo,@RequestParam(defaultValue = "5")Integer pageSize) {
         UserDtls user = userService.getUserByEmail(p.getName());
-        List<ProductOrder> orders = orderService.getOrderByUserId(user.getId());
-        model.addAttribute("orders", orders);
+        Page<ProductOrder> page = orderService.getAllOrderByUserIdPagination(pageNo,pageSize,user.getId());
+        model.addAttribute("isFirst", page.isFirst());
+        model.addAttribute("isLast", page.isLast());
+        model.addAttribute("pageNo", page.getNumber());
+        model.addAttribute("totalOrders", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("orders", page.getContent());
         return "user/user_order";
     }
     @GetMapping("/updateStatusOrder")

@@ -29,9 +29,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     OrderRepository orderRepository;
 
-    
-    OrderAddress orderAddress;
-
     @Autowired
     CartRepository cartRepository;
 
@@ -93,10 +90,16 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.findByOrderId(orderId);
     }
     @Override
-        public Page<ProductOrder> getAllOrderPagination(Integer pageNo, Integer pageSize){
+    public Page<ProductOrder> getAllOrderPagination(Integer pageNo, Integer pageSize){
             Pageable pageable = PageRequest.of(pageNo, pageSize);
             return orderRepository.findAll(pageable);
         }
 
+    @Override
+    public Page<ProductOrder> getAllOrderByUserIdPagination(Integer pageNo, Integer pageSize, Integer uid){
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<ProductOrder> orders = orderRepository.findByUserId(pageable, uid);
+        return orders;
+        }
 
 }
