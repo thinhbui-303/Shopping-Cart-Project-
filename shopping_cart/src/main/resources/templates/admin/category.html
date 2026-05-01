@@ -27,7 +27,7 @@
                             </th:block>
                         </div>
                         <div class="card-body">
-                            <form action="/admin/saveCategory" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/admin/saveCategory}" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label>Enter Category:</label>
                                     <input type="text" class="form-control" name="name">

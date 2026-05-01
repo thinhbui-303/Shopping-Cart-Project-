@@ -31,7 +31,7 @@ th:replace="~{base::layout(~{::section})} ">
 						<table class="table table-borderless">
 
 							<tbody>
-								<form action="/admin/updateProfileAdmin" method="post"
+								<form th:action="@{/admin/updateProfileAdmin}" method="post"
                                 enctype="multipart/form-data">
 								<tr>
 									<th scope="row">Name</th>
@@ -116,7 +116,7 @@ th:replace="~{base::layout(~{::section})} ">
 							<table class="table table-borderless">
 
 								<tbody>
-									<form action="/admin/changePasswordAdmin" method="post">
+									<form th:action="@{/admin/changePasswordAdmin}" method="post">
 										<tr>
 											<th scope="row">Current Password</th>
 

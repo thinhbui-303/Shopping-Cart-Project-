@@ -70,9 +70,14 @@ th:fragment="layout(content)">
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
             <li><a class="dropdown-item" href="/user/userOrder">Your Order</a></li>
-            <li><a class="dropdown-item" href="/logout">Log out</a></li>
+            <!-- <li><a class="dropdown-item" href="/logout">Log out</a></li> -->
            
           </ul>
+        </li>
+        <li>
+          <form th:action="@{/logout}" method="post" class="d-inline">
+    <button type="submit" class="btn btn-link nav-link ">Log out</button>
+</form>
         </li>
       
         
@@ -91,9 +96,14 @@ th:fragment="layout(content)">
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/admin/">My Panel</a></li>
             <li><a class="dropdown-item" href="/admin/profileAdmin">Profile Admin</a></li>
-            <li><a class="dropdown-item" href="/logout">Log out</a></li>
+            <!-- <li><a class="dropdown-item" href="/logout">Log out</a></li> -->
            
           </ul>
+        </li>
+        <li>
+          <form th:action="@{/logout}" method="post" class="d-inline">
+    <button type="submit" class="btn btn-link nav-link">Log out</button>
+</form>
         </li>
       
         

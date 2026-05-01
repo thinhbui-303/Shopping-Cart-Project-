@@ -24,7 +24,7 @@ th:replace="~{base::layout(~{::section})} ">
                             </th:block>
                         </div>
                         <div class="card-body">
-                            <form action="/admin/updateProduct" method="post" enctype="multipart/form-data" >
+                            <form th:action="@{/admin/updateProduct}" method="post" enctype="multipart/form-data" >
                             <input type="hidden" name="id" th:value="${product.id}">
                             <div class="mb-3">
                                 

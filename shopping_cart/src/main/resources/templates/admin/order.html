@@ -106,7 +106,7 @@
                                     <td class="text-success fw-bold">[[${o.orderStatus}]]</td>
                                     <td>
 
-                                        <form action="/admin/updateStatusOrder" method="post">
+                                        <form th:action="@{/admin/updateStatusOrder}" method="post">
                                             <div class="row">
                                                 <div class="col"><select class="form-control" name="st"
                                                         aria-label="Default select example">

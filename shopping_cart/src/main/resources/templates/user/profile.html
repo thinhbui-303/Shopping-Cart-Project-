@@ -116,7 +116,7 @@ th:replace="~{base::layout(~{::section})} ">
 							<table class="table table-borderless">
 
 								<tbody>
-									<form action="/user/changePasswordUser" method="post">
+									<form th:action="@{/user/changePasswordUser}" method="post">
 										<tr>
 											<th scope="row">Current Password</th>
 

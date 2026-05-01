@@ -28,7 +28,7 @@ th:replace="~{base::layout(~{::section})} ">
                         </th:block>
                     </div>
                     <div class="card-body">
-                        <form action="/saveUser" method="post" enctype="multipart/form-data" id="userRegister" novalidate>
+                        <form th:action="@{/saveUser}" method="post" enctype="multipart/form-data" id="userRegister" novalidate>
                             <div class="row">
                                 <div class="col ">
                                     <label class="form-label">Fullname</label>

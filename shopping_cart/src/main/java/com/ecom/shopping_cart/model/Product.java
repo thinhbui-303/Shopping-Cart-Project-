@@ -53,7 +53,7 @@ public class Product {
     @DecimalMax(value = "100", message = "Discount no more than 100%")
     private double discount;
 
-    @DecimalMin(value = "0.01", message = "Price after discount must bigger than 0!")
+    // @DecimalMin(value = "0.01", message = "Price after discount must bigger than 0!")
     private double discountPrice;
 
     private Boolean isActive;
