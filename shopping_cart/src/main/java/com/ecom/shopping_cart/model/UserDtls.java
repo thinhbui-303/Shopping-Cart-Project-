@@ -26,7 +26,7 @@ public class UserDtls {
     @Size(min = 3 , max = 100 , message = "Name must be at least 3 characters and no more than 100 characters!" )
     private String fullName;
 
-    @NotNull(message = "Phone number mustn't be blank!")
+    @NotBlank(message = "Phone number mustn't be blank!")
     @Pattern(regexp = "^[0-9]{10}$", message =  "phone number must 10 numbers")
     private String phoneNumber;
 
